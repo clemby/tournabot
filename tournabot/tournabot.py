@@ -222,6 +222,27 @@ def add_match(name, time=None, teams=[], next_id=None, winner=None):
     }
 
 
+def remaining(bot, user, chan, args):
+    """Show remaining matches."""
+    matches = [
+        match for match in state['matches'].values()
+        if match['winner'] is None
+    ]
+    matches.sort(lambda x, y: cmp(x.get('time'), y.get('time')))
+    bot.say(chan, 'Remaining matches:')
+    for match in matches:
+        teams = match.get('teams')
+        if teams is None:
+            teams = '[No teams yet]'
+        else:
+            teams = ', '.join(teams)
+        bot.say(chan, '{name}: {teams}'.format(name=match['id'], teams=teams))
+
+
+def reload_state(bot, user, chan, args):
+    load()
+
+
 def show_help(bot, user, chan, args):
     bot.say(chan, 'Supported commands:')
     bot.say(chan, '  ' + ' '.join(
@@ -232,6 +253,8 @@ cmds = {
     'register': register,
     'help': show_help,
     'result': result,
+    'remaining': remaining,
+    'reload': reload_state,
 }
 
 
