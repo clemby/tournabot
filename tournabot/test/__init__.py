@@ -1,0 +1,1 @@
+from tournabot import *
