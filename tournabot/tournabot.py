@@ -210,7 +210,7 @@ def close_match(match, winner_name, losing_teams=None):
     state['unconfirmed_results'].pop(match['id'], None)
 
 
-def add_match(name, teams=[], next_id=None, winner=None):
+def add_match(name, time=None, teams=[], next_id=None, winner=None):
     """Add a match entry."""
     team_names = [
         team if isinstance(team, str) else team['id']
@@ -221,6 +221,7 @@ def add_match(name, teams=[], next_id=None, winner=None):
         'next': next_id,
         'winner': winner,
         'teams': team_names,
+        'time': time,
     }
 
 
