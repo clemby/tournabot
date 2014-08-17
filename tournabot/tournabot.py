@@ -141,26 +141,21 @@ def result(bot, user, chan, args):
     all_unconfirmed_results = state['unconfirmed_results']
     all_matches = state['matches']
 
-    match_name, team_name = args
+    match_name, winning_team_name = args
     match = all_matches.get(match_name)
     if match is None:
         bot.say(chan, 'Unable to find match {}'.format(match_name))
         return
-    team = all_teams.get(team_name)
+    team = all_teams.get(winning_team_name)
     if team is None:
-        bot.say(chan, 'Unable to find team {}'.format(team_name))
+        bot.say(chan, 'Unable to find team {}'.format(winning_team_name))
         return
 
-    result = all_unconfirmed_results.get(match_name)
-    if result is None:
-        all_unconfirmed_results[match_name] = team_name
-        winner_name = team_name
-    else:
-        winner_name = all_unconfirmed_results[match_name]
+    all_unconfirmed_results[match_name] = winning_team_name
 
     player_is_loser = False
     losing_teams = [
-        all_teams[name] for name in match['teams'] if name != winner_name
+        all_teams[name] for name in match['teams'] if name != winning_team_name
     ]
     for losing_team in losing_teams:
         if player in losing_team['members']:
@@ -171,7 +166,9 @@ def result(bot, user, chan, args):
         bot.say(chan, 'Result must be confirmed by a loser in the match')
         return
 
-    close_match(match, winner_name, losing_teams)
+    close_match(match, winning_team_name, losing_teams)
+    bot.say(chan, '{match} won by {team}. Congratulations!'.format(
+        match=match['id'], team=winning_team_name))
 
 
 def close_match(match, winner_name, losing_teams=None):
