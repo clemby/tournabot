@@ -244,6 +244,26 @@ def reload_state(bot, user, chan, args):
     load()
 
 
+def rules(bot, user, chan, args):
+    rules = state.get('rules')
+    if rules:
+        bot.say(chan, 'Tournament rules:')
+        for i, rule in enumerate(rules):
+            bot.say(chan, '{}. {}'.format(i + 1, rule))
+    else:
+        bot.say(chan, 'There are no rules!')
+
+
+def unconfirmed(bot, user, chan, args):
+    unconfirmed = state.get('unconfirmed_results')
+    if unconfirmed:
+        bot.say(chan, 'Unconfirmed results:')
+        for key, winner in unconfirmed.items():
+            bot.say(chan, '{} won by {}'.format(key, winner))
+    else:
+        bot.say(chan, 'There are no unconfirmed results')
+
+
 def show_help(bot, user, chan, args):
     bot.say(chan, 'Supported commands:')
     bot.say(chan, '  ' + ' '.join(
@@ -256,6 +276,8 @@ cmds = {
     'result': result,
     'remaining': remaining,
     'reload': reload_state,
+    'rules': rules,
+    'unconfirmed': unconfirmed,
 }
 
 
