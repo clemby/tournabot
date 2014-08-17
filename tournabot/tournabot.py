@@ -236,7 +236,8 @@ def remaining(bot, user, chan, args):
             teams = '[No teams yet]'
         else:
             teams = ', '.join(teams)
-        bot.say(chan, '{name}: {teams}'.format(name=match['id'], teams=teams))
+        bot.say(chan, '{name} [{time}]: {teams}'.format(
+            name=match['id'], time=match.get('time'), teams=teams))
 
 
 def reload_state(bot, user, chan, args):
