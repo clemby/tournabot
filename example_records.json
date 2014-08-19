@@ -1,0 +1,55 @@
+{
+  "matches": {
+    "final": {
+      "next": null, 
+      "winner": null, 
+      "teams": [
+        "Ripley`", 
+        "Clemb"
+      ], 
+      "id": "final", 
+      "time": "today"
+    }, 
+    "semifinal_1": {
+      "next": "final", 
+      "winner": "Clemb", 
+      "teams": [
+        "Clemb", 
+        "Ripley"
+      ], 
+      "id": "semifinal_1", 
+      "time": "today"
+    }
+  }, 
+  "unconfirmed_results": {}, 
+  "teams": {
+    "Ripley`": {
+      "attended": 0, 
+      "draws": 0, 
+      "creator": "Ripley`", 
+      "wins": 0, 
+      "losses": 0, 
+      "games": 0, 
+      "members": [
+        "Ripley`"
+      ], 
+      "forfeited": 0
+    }, 
+    "Clemb": {
+      "attended": 0, 
+      "draws": 0, 
+      "creator": "Clemb", 
+      "wins": 0, 
+      "losses": 0, 
+      "games": 0, 
+      "members": [
+        "Clemb"
+      ], 
+      "forfeited": 0
+    }
+  },
+  "rules": [
+    "This is a rule.",
+    "This is another rule."
+  ]
+}
