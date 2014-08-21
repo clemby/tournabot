@@ -1,5 +1,6 @@
 import unittest
 from mock import Mock
+from datetime import datetime
 
 from .. import tournabot
 
@@ -231,4 +232,50 @@ class CloseMatch(TournabotTestCase):
         self.assertIn(
             'team1',
             tournabot.state['matches'][self.next_match_id]['teams']
+        )
+
+
+class RemainingMatches(TournabotTestCase):
+    def setUp(self):
+        self.days = 20
+        self.hours = 11
+        self.minutes = 36
+        self.seconds = 52
+        self.first = datetime(2014, 1, 1, 0, 0, 0, 0)
+        self.second = datetime(2014, 1, 1 + self.days, self.hours,
+                               self.minutes, self.seconds)
+        self.timedelta = self.second - self.first
+        self.match_date_str = str(self.second)
+
+    def test_timedelta_fmt_function_with_days(self):
+        second = datetime(2014, 1, 1 + self.days, self.hours, self.minutes,
+                          self.seconds)
+        first = datetime(2014, 1, 1, 0, 0, 0)
+        self.assertEqual(
+            tournabot.timedelta_fmt(second - first),
+            '20 days, 11 hours, 36 minutes, 52 seconds'
+        )
+
+    def test_timedelta_fmt_function_with_hours(self):
+        second = datetime(2014, 1, 1, self.hours, self.minutes, self.seconds)
+        first = datetime(2014, 1, 1, 0, 0, 0)
+        self.assertEqual(
+            tournabot.timedelta_fmt(second - first),
+            '11 hours, 36 minutes, 52 seconds'
+        )
+
+    def test_timedelta_fmt_function_with_minutes(self):
+        second = datetime(2014, 1, 1, 0, self.minutes, self.seconds)
+        first = datetime(2014, 1, 1, 0, 0, 0)
+        self.assertEqual(
+            tournabot.timedelta_fmt(second - first),
+            '36 minutes, 52 seconds'
+        )
+
+    def test_timedelta_fmt_function_with_seconds(self):
+        second = datetime(2014, 1, 1, 0, 0, self.seconds)
+        first = datetime(2014, 1, 1, 0, 0, 0)
+        self.assertEqual(
+            tournabot.timedelta_fmt(second - first),
+            '52 seconds'
         )

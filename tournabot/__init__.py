@@ -1,5 +1,6 @@
 from twisted.internet import reactor
 
+import tournabot
 from tournabot import (
     state, state_file, tournament_is_1v1, cmd_prefix, save, load, register,
     create_team, result, close_match, add_match, show_help, Bot, BotFactory)

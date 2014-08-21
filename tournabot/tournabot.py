@@ -1,10 +1,14 @@
 #!/usr/bin/env python
 
-from __future__ import print_function
+from __future__ import print_function, division
+
+from datetime import datetime
+from dateutil import parser
+import json
 
 from twisted.internet import protocol
 from twisted.words.protocols import irc
-import json
+import pytz
 
 
 tournament_is_1v1 = True
@@ -30,6 +34,38 @@ def load():
     with open(state_file, 'r') as f:
         global state
         state = json.load(f)
+
+
+def timedelta_fmt(td):
+    """
+    Format a timedelta.
+
+    :returns: a string in the format "DD days, HH:MM:SS" if the timedelta is
+    greater than one day; otherwise "HH:MM:SS".
+
+    """
+    days = td.days
+    hours, remainder = divmod(td.seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    if days > 0:
+        return '{} days, {} hours, {} minutes, {} seconds'.format(
+            days, hours, minutes, seconds)
+    if hours > 0:
+        return '{} hours, {} minutes, {} seconds'.format(hours, minutes,
+                                                         seconds)
+    if minutes > 0:
+        return '{} minutes, {} seconds'.format(minutes, seconds)
+    return '{} seconds'.format(seconds)
+
+
+def time_difference(utc_now, time_str):
+    if time_str is None:
+        return ''
+    try:
+        time = parser.parse(time_str)
+    except Exception:
+        return ''
+    return timedelta_fmt(time - utc_now)
 
 
 def register(bot, user, chan, args):
@@ -230,14 +266,19 @@ def remaining(bot, user, chan, args):
     ]
     matches.sort(lambda x, y: cmp(x.get('time'), y.get('time')))
     bot.say(chan, 'Remaining matches:')
+
+    utc_now = datetime.utcnow().replace(tzinfo=pytz.utc)
     for match in matches:
         teams = match.get('teams')
         if teams is None:
             teams = '[No teams yet]'
         else:
             teams = ', '.join(teams)
-        bot.say(chan, '{name} [{time}]: {teams}'.format(
-            name=match['id'], time=match.get('time'), teams=teams))
+        match_time = match.get('time')
+        timeleft = time_difference(utc_now, match_time)
+        time_str = ' [{}]'.format(timeleft) if timeleft else ''
+        bot.say(chan, '{name}{time}: {teams}'.format(
+            name=match['id'], time=time_str, teams=teams))
 
 
 def reload_state(bot, user, chan, args):

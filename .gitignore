@@ -1,3 +1,4 @@
 *.pyc
 ladder.json
 /.coverage
+records.json
