@@ -1,27 +1,34 @@
 {
   "matches": {
     "final": {
-      "next": null, 
+      "time": "2014-08-29T12:00:00 +0000", 
       "winner": null, 
       "teams": [
         "Ripley`", 
         "Clemb"
       ], 
       "id": "final", 
-      "time": "today"
+      "next": null
     }, 
     "semifinal_1": {
-      "next": "final", 
-      "winner": "Clemb", 
+      "time": "2014-08-29T11:00:00 +0000", 
+      "winner": null, 
       "teams": [
         "Clemb", 
         "Ripley"
       ], 
       "id": "semifinal_1", 
-      "time": "today"
+      "next": "final"
     }
   }, 
-  "unconfirmed_results": {}, 
+  "tournament": {
+    "team_size_limit": 1
+  }, 
+  "bot": {
+    "nick": "tournabot", 
+    "sassy": false, 
+    "channel": "#clembtest2"
+  }, 
   "teams": {
     "Ripley`": {
       "attended": 0, 
@@ -47,9 +54,10 @@
       ], 
       "forfeited": 0
     }
-  },
+  }, 
+  "unconfirmed_results": {}, 
   "rules": [
-    "This is a rule.",
+    "This is a rule.", 
     "This is another rule."
   ]
 }

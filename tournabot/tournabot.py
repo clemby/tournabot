@@ -11,10 +11,14 @@ from twisted.words.protocols import irc
 import pytz
 
 
-tournament_is_1v1 = True
-
-
 state = {
+    'tournament': {
+        'team_size_limit': float('inf')
+    },
+    'bot': {
+        'nick': 'tournabot',
+        'sassy': False,
+    },
     'teams': {},
     'matches': {},
     'unconfirmed_results': {},
@@ -84,7 +88,7 @@ def register(bot, user, chan, args):
 
     """
     player_name = user.split('!')[0]
-    if tournament_is_1v1:
+    if state['tournament']['team_size_limit'] == 1:
         if args:
             bot.say(chan, 'Expected no arguments (1v1 tournament)')
             return
@@ -347,7 +351,8 @@ class Bot(irc.IRCClient):
         cmd = cmds.get(parts[0])
 
         if not cmd:
-            self.say(channel, 'Eh?')
+            if state.get('bot') and state['bot'].get('sassy'):
+                self.say(channel, 'Eh?')
             return
 
         cmd(self, user, channel, parts[1:])
@@ -357,7 +362,7 @@ class Bot(irc.IRCClient):
 class BotFactory(protocol.ClientFactory):
     protocol = Bot
 
-    def __init__(self, channel, nickname='tournabot'):
+    def __init__(self, channel, nickname):
         self.channel = channel
         self.nickname = nickname
 

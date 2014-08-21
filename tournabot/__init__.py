@@ -1,15 +1,34 @@
 from twisted.internet import reactor
 
 import tournabot
-from tournabot import (
-    state, state_file, tournament_is_1v1, cmd_prefix, save, load, register,
-    create_team, result, close_match, add_match, show_help, Bot, BotFactory)
 
 
 if __name__ == '__main__':
     try:
-        load()
+        tournabot.load()
     except Exception as e:
         print(e)
-    reactor.connectTCP('irc.freenode.org', 6667, BotFactory('#clembtest'))
+
+    channel = None
+    nickname = None
+
+    bot_config = tournabot.state.get('bot')
+    if bot_config:
+        channel = bot_config.get('channel')
+        nickname = bot_config.get('nick')
+
+    channel = channel or '#clembtest'
+    nickname = nickname or 'tournabot'
+
+    if type(channel) is unicode:
+        channel = channel.encode('utf-8')
+    if type(nickname) is unicode:
+        nickname = nickname.encode('utf-8')
+
+    print("connecting to {}".format(channel))
+    reactor.connectTCP(
+        'irc.freenode.org',
+        6667,
+        tournabot.BotFactory(channel)
+    )
     reactor.run()
