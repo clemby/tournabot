@@ -1,67 +1,79 @@
 {
   "matches": {
     "1": {
-      "next": "5", 
+      "time": "2014-08-29T11:00:00 +0000", 
       "winner": null, 
-      "teams": [
-      ], 
+      "teams": [], 
       "id": "1", 
-      "time": "2014-08-29T11:00:00 +0000"
+      "next": "5"
     }, 
     "3": {
-      "next": "6", 
+      "time": "2014-08-29T11:00:00 +0000", 
       "winner": null, 
       "teams": [], 
       "id": "3", 
-      "time": "2014-08-29T11:00:00 +0000"
+      "next": "6"
     }, 
     "2": {
-      "next": "5", 
+      "time": "2014-08-29T11:00:00 +0000", 
       "winner": null, 
-      "teams": [], 
+      "teams": [
+        "Ripley`", 
+        "TBA"
+      ], 
       "id": "2", 
-      "time": "2014-08-29T11:00:00 +0000"
+      "next": "5"
     }, 
     "5": {
-      "next": "final", 
+      "time": "Pending", 
       "winner": null, 
-      "teams": [], 
+      "teams": [
+        "Clemb", 
+        "TBA"
+      ], 
       "id": "5", 
-      "time": "Pending"
+      "next": "final"
     }, 
     "4": {
-      "next": "6", 
+      "time": "2014-08-29T11:00:00 +0000", 
       "winner": null, 
       "teams": [], 
       "id": "4", 
-      "time": "2014-08-29T11:00:00 +0000"
+      "next": "6"
     }, 
     "6": {
-      "next": "final", 
+      "time": "Pending", 
       "winner": null, 
-      "teams": [], 
+      "teams": [
+        "Ripley`", 
+        "TBA"
+      ], 
       "id": "6", 
-      "time": "Pending"
+      "next": "final"
     }, 
     "final": {
-      "next": null, 
+      "time": "Pending", 
       "winner": null, 
       "teams": [
         "Ripley`", 
         "Clemb"
       ], 
       "id": "final", 
-      "time": "Pending"
+      "next": null
     }
   }, 
+  "tournament": {
+    "match_size_minimum": 2
+  }, 
+  "bot": {
+    "nick": "clembot", 
+    "sassy": false, 
+    "channel": "#clembtest"
+  }, 
+  "teams": {}, 
   "unconfirmed_results": {
     "semifinal_1": null, 
     "final": null
-  }, 
-  "bot": {
-    "nick": "tournabot", 
-    "sassy": false, 
-    "channel": "#clembtest"
   }, 
   "rules": [
     "1 : The officials Will have the FINAL say on All rounds they Monitor", 
@@ -76,6 +88,5 @@
     "9. Players will meet and play When possible, As soon as possible", 
     "10. Crates are optional. players agree on a per match basis (Both players say Yes, or the answer is No)", 
     "11. Starting credits 5000 / MCV only"
-  ], 
-  "teams": {}
+  ]
 }

@@ -274,16 +274,16 @@ def remaining(bot, user, chan, args):
 
     utc_now = datetime.utcnow().replace(tzinfo=pytz.utc)
     for match in matches:
-        teams = match.get('teams')
-        if teams is None:
-            teams = '[No teams yet]'
-        else:
-            teams = ', '.join(teams)
+        teams = match.get('teams') or []
+        minimum_teams = state['tournament'].get('match_size_minimum')
+        if minimum_teams:
+            teams.extend(['TBA'] * (minimum_teams - len(teams)))
+        teams_str = ' vs. '.join(teams)
         match_time = match.get('time')
         timeleft = time_difference(utc_now, match_time)
         time_str = ' [{}]'.format(timeleft) if timeleft else ''
         bot.say(chan, '{name}{time}: {teams}'.format(
-            name=match['id'], time=time_str, teams=teams))
+            name=match['id'], time=time_str, teams=teams_str))
 
 
 def reload_state(bot, user, chan, args):
