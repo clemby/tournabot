@@ -97,7 +97,8 @@ def register(bot, user, chan, args):
 
     """
     player_name = user.split('!')[0]
-    if state['tournament']['team_size_limit'] == 1:
+    is_1v1 = state['tournament'].get('team_size_limit') == 1
+    if is_1v1:
         if args:
             bot.say(chan, 'Expected no arguments (1v1 tournament)')
             return
@@ -123,11 +124,14 @@ def register(bot, user, chan, args):
         return
 
     create_team(name=team_name, members=members, creator=player_name)
-    bot.say(
-        chan,
-        'Team {} successfully registered by {} with members {}. '
-        'Thanks for participating!'.format(team_name, player_name, members)
-    )
+    if is_1v1:
+        bot.say(chan, 'Player {} successfully registered'.format(player_name))
+    else:
+        bot.say(
+            chan,
+            'Team {} successfully registered by {} with members {}. '
+            'Thanks for participating!'.format(team_name, player_name, members)
+        )
 
 
 def create_team(name, members, creator):
