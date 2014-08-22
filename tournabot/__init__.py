@@ -1,1 +1,1 @@
-from tournabot import *
+import tournabot
