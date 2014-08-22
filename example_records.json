@@ -25,7 +25,6 @@
       "next": "5"
     }, 
     "5": {
-      "time": "Pending", 
       "winner": null, 
       "teams": [
         "Clemb", 
@@ -42,7 +41,6 @@
       "next": "6"
     }, 
     "6": {
-      "time": "Pending", 
       "winner": null, 
       "teams": [
         "Ripley`", 
@@ -52,7 +50,6 @@
       "next": "final"
     }, 
     "final": {
-      "time": "Pending", 
       "winner": null, 
       "teams": [
         "Ripley`", 

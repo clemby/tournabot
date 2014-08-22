@@ -279,10 +279,14 @@ def remaining(bot, user, chan, args):
         if minimum_teams:
             teams.extend(['TBA'] * (minimum_teams - len(teams)))
         teams_str = ' vs. '.join(teams)
+
         match_time = match.get('time')
-        timeleft = time_difference(utc_now, match_time)
-        time_str = ' [{}]'.format(timeleft) if timeleft else ''
-        bot.say(chan, '{name}{time}: {teams}'.format(
+        if match_time:
+            timeleft = time_difference(utc_now, match_time)
+            time_str = str(timeleft) if timeleft else 'Pending'
+        else:
+            time_str = 'Pending'
+        bot.say(chan, '{name} [{time}]: {teams}'.format(
             name=match['id'], time=time_str, teams=teams_str))
 
 
