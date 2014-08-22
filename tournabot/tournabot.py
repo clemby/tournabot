@@ -187,33 +187,6 @@ def create_team(name, members, creator):
     }
 
 
-def claim_result(bot, user, chan, args):
-    """
-    Report a game result.
-
-    Any user can report the result. Required format is eg.
-
-        .result match_id winning_team_name
-
-    """
-    if len(args) != 2:
-        bot.say(chan, 'Expected: <command> <match-id> <winning-team-name>')
-        return
-
-    match_name, team_name = args
-    match = state['matches'].get(match_name)
-    team = state['teams'].get(team_name)
-    if match is None:
-        bot.say(chan, 'Unable to find match {}'.format(match_name))
-        return
-    if team is None:
-        bot.say(chan, 'Unable to find team {}'.format(team_name))
-        return
-
-    state['unconfirmed_results'][match_name] = team_name
-    result(bot, user, chan, args)
-
-
 def result(bot, user, chan, args):
     """
     Report a game result.
