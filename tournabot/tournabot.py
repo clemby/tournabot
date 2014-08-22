@@ -3,9 +3,9 @@
 from __future__ import print_function, division
 
 from datetime import datetime
-from dateutil import parser
 import json
 
+import iso8601
 from twisted.internet import protocol
 from twisted.words.protocols import irc
 import pytz
@@ -74,9 +74,11 @@ def timedelta_fmt(td):
 def time_difference(utc_now, time_str):
     if time_str is None:
         return ''
+    time = ''
     try:
-        time = parser.parse(time_str)
+        time = iso8601.parse_date(time_str)
     except Exception:
+        print("Warning: could not parse date", time_str)
         return ''
     return timedelta_fmt(time - utc_now)
 
