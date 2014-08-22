@@ -1,63 +1,81 @@
 {
   "matches": {
+    "1": {
+      "next": "5", 
+      "winner": null, 
+      "teams": [
+      ], 
+      "id": "1", 
+      "time": "2014-08-29T11:00:00 +0000"
+    }, 
+    "3": {
+      "next": "6", 
+      "winner": null, 
+      "teams": [], 
+      "id": "3", 
+      "time": "2014-08-29T11:00:00 +0000"
+    }, 
+    "2": {
+      "next": "5", 
+      "winner": null, 
+      "teams": [], 
+      "id": "2", 
+      "time": "2014-08-29T11:00:00 +0000"
+    }, 
+    "5": {
+      "next": "final", 
+      "winner": null, 
+      "teams": [], 
+      "id": "5", 
+      "time": "Pending"
+    }, 
+    "4": {
+      "next": "6", 
+      "winner": null, 
+      "teams": [], 
+      "id": "4", 
+      "time": "2014-08-29T11:00:00 +0000"
+    }, 
+    "6": {
+      "next": "final", 
+      "winner": null, 
+      "teams": [], 
+      "id": "6", 
+      "time": "Pending"
+    }, 
     "final": {
-      "time": "2014-08-29T12:00:00 +0000", 
+      "next": null, 
       "winner": null, 
       "teams": [
         "Ripley`", 
         "Clemb"
       ], 
       "id": "final", 
-      "next": null
-    }, 
-    "semifinal_1": {
-      "time": "2014-08-29T11:00:00 +0000", 
-      "winner": null, 
-      "teams": [
-        "Clemb", 
-        "Ripley"
-      ], 
-      "id": "semifinal_1", 
-      "next": "final"
+      "time": "Pending"
     }
   }, 
-  "tournament": {
-    "team_size_limit": 1
+  "unconfirmed_results": {
+    "semifinal_1": null, 
+    "final": null
   }, 
   "bot": {
     "nick": "tournabot", 
     "sassy": false, 
-    "channel": "#clembtest2"
+    "channel": "#clembtest"
   }, 
-  "teams": {
-    "Ripley`": {
-      "attended": 0, 
-      "draws": 0, 
-      "creator": "Ripley`", 
-      "wins": 0, 
-      "losses": 0, 
-      "games": 0, 
-      "members": [
-        "Ripley`"
-      ], 
-      "forfeited": 0
-    }, 
-    "Clemb": {
-      "attended": 0, 
-      "draws": 0, 
-      "creator": "Clemb", 
-      "wins": 0, 
-      "losses": 0, 
-      "games": 0, 
-      "members": [
-        "Clemb"
-      ], 
-      "forfeited": 0
-    }
-  }, 
-  "unconfirmed_results": {}, 
   "rules": [
-    "This is a rule.", 
-    "This is another rule."
-  ]
+    "1 : The officials Will have the FINAL say on All rounds they Monitor", 
+    "2 : Each Match is a Knockout / Elimination Round. Therefore You lose and You're Out", 
+    "3 : A Lobby will be held open for Players waiting For their game - For Information and Notification Purposes Only - Which you may Join and wait in", 
+    "4 : Player/Host Crash or Drop will result in a REMATCH, If player does not Reconnect it will be Considered a Forfeit", 
+    "5 : Players MUST sign up Themselves, No nominations 'On behalf of'.", 
+    "6 : No player may Watch the Live stream Whilst ingame", 
+    "7 : Using any of the following exploits results in a disqualification/removal from the tournament", 
+    "7.1: Mad tank mass infantry exploit", 
+    "8: Players that have not signed on to Play their match within the 6 hour countdown will be considered forfeit, If both players are unable to play the match will be skipped", 
+    "9. Players will meet and play When possible, As soon as possible", 
+    "10. Crates are optional. players agree on a per match basis (Both players say Yes, or the answer is No)", 
+    "11. Starting credits 5000 / MCV only"
+  ], 
+  "teams": {}
 }
