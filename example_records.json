@@ -8,14 +8,14 @@
       "next": "5"
     }, 
     "3": {
-      "time": "2014-08-29T11:00:00 +0000", 
+      "time": "2014-08-29T11:30:00 +0000", 
       "winner": null, 
       "teams": [], 
       "id": "3", 
       "next": "6"
     }, 
     "2": {
-      "time": "2014-08-29T11:00:00 +0000", 
+      "time": "2014-08-29T12:00:00 +0000", 
       "winner": null, 
       "teams": [
         "Ripley`", 
@@ -34,7 +34,7 @@
       "next": "final"
     }, 
     "4": {
-      "time": "2014-08-29T11:00:00 +0000", 
+      "time": "2014-08-30T11:00:00 +0000", 
       "winner": null, 
       "teams": [], 
       "id": "4", 
@@ -63,7 +63,7 @@
     "match_size_minimum": 2
   }, 
   "bot": {
-    "nick": "clembot", 
+    "nick": "tournabot", 
     "sassy": false, 
     "channel": "#clembtest"
   }, 

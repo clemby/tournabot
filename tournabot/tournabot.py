@@ -52,7 +52,7 @@ def timedelta_fmt(td):
     hours, remainder = divmod(td.seconds, 3600)
     minutes, seconds = divmod(remainder, 60)
     if days > 0:
-        return '{} days, {} hours, {} minutes, {} seconds'.format(
+        return '{} days, {} hours, {} minutes'.format(
             days, hours, minutes, seconds)
     if hours > 0:
         return '{} hours, {} minutes, {} seconds'.format(hours, minutes,
