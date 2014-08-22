@@ -134,6 +134,29 @@ def register(bot, user, chan, args):
         )
 
 
+def admin_register(bot, user, chan, args):
+    """
+    Register a team.
+
+    Expects eg.
+
+        .admin_register player
+
+    (for 1v1 tournament) or the same args as register for a multiplayer
+    tournament.
+
+    """
+    if state['tournament'].get('team_size_limit') != 1:
+        register(bot, user, chan, args)
+        return
+
+    if len(args) != 1:
+        bot.say(chan, 'Expected 1 argument (player name)')
+        return
+
+    register(bot, args[0], chan, [])
+
+
 def create_team(name, members, creator):
     state['teams'][name] = {
         'members': members,
@@ -313,12 +336,14 @@ def remaining(bot, user, chan, args):
 
 def teams(bot, user, chan, args):
     """Show teams."""
+    if not state.get('teams'):
+        bot.say(chan, 'Nobody is registered!')
+        return
+    team_names = ', '.join(state['teams'].keys())
     if state['tournament'].get('team_size_limit') == 1:
-        bot.say(chan, 'Registered players:')
+        bot.say(chan, 'Registered players: ' + team_names)
     else:
-        bot.say(chan, 'Registered teams:')
-    for team_name in state['teams']:
-        bot.say(chan, team_name)
+        bot.say(chan, 'Registered teams: ' + team_names)
 
 
 def players(bot, user, chan, args):
@@ -375,6 +400,7 @@ all_cmds = {
     'unconfirmed': unconfirmed,
     'teams': teams,
     'players': players,
+    'admin_register': admin_register,
 }
 cmds.update(all_cmds)
 
