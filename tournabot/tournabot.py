@@ -269,7 +269,17 @@ def remaining(bot, user, chan, args):
         match for match in state['matches'].values()
         if match['winner'] is None
     ]
-    matches.sort(lambda x, y: cmp(x.get('time'), y.get('time')))
+
+    def order_with_nonentries_last(x, y):
+        time_x = x.get('time')
+        if time_x is None:
+            return 1
+        time_y = y.get('time')
+        if time_y is None:
+            return -1
+        return cmp(time_x, time_y)
+
+    matches.sort(order_with_nonentries_last)
     bot.say(chan, 'Remaining matches:')
 
     utc_now = datetime.utcnow().replace(tzinfo=pytz.utc)
