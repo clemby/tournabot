@@ -167,7 +167,7 @@ def admin_register(bot, user, chan, args):
         register(bot, user, chan, args)
         return
     if len(args) != 1:
-        bot.say(chan, 'Expected 1 argument (player name)')
+        bot.say(chan, 'Expected 1 argument')
         return
 
     register(bot, args[0], chan, [])
@@ -220,17 +220,25 @@ def result(bot, user, chan, args):
 
     all_unconfirmed_results[match_name] = winning_team_name
 
-    player_is_loser = False
-    losing_teams = [
-        all_teams[name] for name in match['teams'] if name != winning_team_name
-    ]
-    for losing_team in losing_teams:
-        if player in losing_team['members']:
-            player_is_loser = True
-            break
+    # Player can set results if admin or a loser in the match.
+    player_can_set = is_admin(user)
+    losing_teams = None
+    if not player_can_set:
+        losing_teams = [
+            all_teams[name]
+            for name in match['teams']
+            if name != winning_team_name
+        ]
+        for losing_team in losing_teams:
+            if player in losing_team['members']:
+                player_can_set = True
+                break
 
-    if not player_is_loser:
-        bot.say(chan, 'Result must be confirmed by a loser in the match')
+    if not player_can_set:
+        bot.say(
+            chan,
+            'Result must be confirmed by an admin or a loser in the match'
+        )
         return
 
     close_match(match, winning_team_name, losing_teams)
