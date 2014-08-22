@@ -22,7 +22,10 @@ state = {
     'teams': {},
     'matches': {},
     'unconfirmed_results': {},
+    'excluded_commands': []
 }
+
+cmds = {}
 
 
 state_file = 'records.json'
@@ -38,6 +41,12 @@ def load():
     with open(state_file, 'r') as f:
         global state
         state = json.load(f)
+
+    excluded_cmds = state.get('excluded_commands') or []
+    global cmds, all_cmds
+    cmds.update(all_cmds)
+    for cmd in excluded_cmds:
+        cmds.pop(cmd)
 
 
 def timedelta_fmt(td):
@@ -267,20 +276,17 @@ def remaining(bot, user, chan, args):
     """Show remaining matches."""
     matches = [
         match for match in state['matches'].values()
-        if match['winner'] is None
+        if match['winner'] is None and match.get('time') is not None
     ]
 
-    def order_with_nonentries_last(x, y):
-        time_x = x.get('time')
-        if time_x is None:
-            return 1
-        time_y = y.get('time')
-        if time_y is None:
-            return -1
-        return cmp(time_x, time_y)
+    def match_order(x, y):
+        return cmp(x.get('time'), y.get('time')) or cmp(x['id'], y['id'])
 
-    matches.sort(order_with_nonentries_last)
-    bot.say(chan, 'Remaining matches:')
+    matches.sort(match_order)
+
+    current_round = state['tournament'].get('current_round') or \
+        "Remaining matches"
+    bot.say(chan, current_round)
 
     utc_now = datetime.utcnow().replace(tzinfo=pytz.utc)
     for match in matches:
@@ -330,7 +336,7 @@ def show_help(bot, user, chan, args):
         '%s%s' % (cmd_prefix, k) for k in cmds.keys()))
 
 
-cmds = {
+all_cmds = {
     'register': register,
     'help': show_help,
     'result': result,
@@ -339,6 +345,7 @@ cmds = {
     'rules': rules,
     'unconfirmed': unconfirmed,
 }
+cmds.update(all_cmds)
 
 
 class Bot(irc.IRCClient):
