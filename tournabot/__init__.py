@@ -29,6 +29,6 @@ if __name__ == '__main__':
     reactor.connectTCP(
         'irc.freenode.org',
         6667,
-        tournabot.BotFactory(channel)
+        tournabot.BotFactory(channel, nickname)
     )
     reactor.run()
