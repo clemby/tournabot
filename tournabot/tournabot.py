@@ -134,6 +134,20 @@ def register(bot, user, chan, args):
         )
 
 
+def is_admin(user):
+    nick = user.split('!')[0]
+    admins = state['bot'].get('admins')
+    return admins and (nick in admins)
+
+
+def admins(bot, user, chan, args):
+    admins = state['bot'].get('admins')
+    if admins:
+        bot.say(chan, "Admins: " + ', '.join(admins))
+    else:
+        bot.say(chan, 'There are no admins')
+
+
 def admin_register(bot, user, chan, args):
     """
     Register a team.
@@ -146,10 +160,12 @@ def admin_register(bot, user, chan, args):
     tournament.
 
     """
+    if not is_admin(user):
+        bot.say(chan, "User must be admin")
+        return
     if state['tournament'].get('team_size_limit') != 1:
         register(bot, user, chan, args)
         return
-
     if len(args) != 1:
         bot.say(chan, 'Expected 1 argument (player name)')
         return
@@ -400,6 +416,7 @@ all_cmds = {
     'unconfirmed': unconfirmed,
     'teams': teams,
     'players': players,
+    'admins': admins,
     'admin_register': admin_register,
 }
 cmds.update(all_cmds)
