@@ -258,7 +258,7 @@ class RemainingMatches(TournabotTestCase):
         first = datetime(2014, 1, 1, 0, 0, 0)
         self.assertEqual(
             tournabot.timedelta_fmt(second - first),
-            '20 days, 11 hours, 36 minutes, 52 seconds'
+            '20 days, 11 hours, 36 minutes'
         )
 
     def test_timedelta_fmt_function_with_hours(self):
