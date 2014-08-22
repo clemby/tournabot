@@ -140,6 +140,7 @@ def create_team(name, members, creator):
         'draws': 0,
         'attended': 0,
         'forfeited': 0,
+        'name': name,
     }
 
 
@@ -306,6 +307,30 @@ def remaining(bot, user, chan, args):
             name=match['id'], time=time_str, teams=teams_str))
 
 
+def teams(bot, user, chan, args):
+    """Show teams."""
+    if state['tournament'].get('team_size_limit') == 1:
+        bot.say(chan, 'Registered players:')
+    else:
+        bot.say(chan, 'Registered teams:')
+    for team_name in state['teams']:
+        bot.say(chan, team_name)
+
+
+def players(bot, user, chan, args):
+    """Show players."""
+    if state['tournament'].get('team_size_limit') == 1:
+        teams(bot, user, chan, args)
+        return
+    players = []
+    for team in state['teams'].values():
+        players.extend(team['members'])
+
+    bot.say(chan, 'Registered players:')
+    for name in players:
+        bot.say(chan, name)
+
+
 def reload_state(bot, user, chan, args):
     load()
 
@@ -344,6 +369,8 @@ all_cmds = {
     'reload': reload_state,
     'rules': rules,
     'unconfirmed': unconfirmed,
+    'teams': teams,
+    'players': players,
 }
 cmds.update(all_cmds)
 
