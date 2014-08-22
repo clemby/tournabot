@@ -22,12 +22,15 @@ class TournabotTestCase(unittest.TestCase):
 class RegisterSinglePlayerTeam(TournabotTestCase):
     def setUp(self):
         TournabotTestCase.setUp(self)
-        tournabot.tournament_is_1v1 = True
+        tournabot.state['tournament'] = {
+            'team_size_limit': 1
+        }
         self.team_name = self.player_name
         self.team_key = self.team_name
 
     def test_creates_team(self):
         tournabot.register(self.bot, self.user, self.chan, self.team_args)
+        print('state', tournabot.state)
         self.assertTrue(self.team_name in tournabot.state['teams'])
         self.assertTrue(
             isinstance(tournabot.state['teams'].get(self.team_name), dict)
@@ -48,8 +51,8 @@ class RegisterSinglePlayerTeam(TournabotTestCase):
 
     def test_sets_creator(self):
         tournabot.register(self.bot, self.user, self.chan, self.team_args)
-        registered = tournabot.state['teams'][self.team_name]
-        self.assertEqual(registered.get('creator'), 'PlayerName')
+        registered = tournabot.state['teams'][self.team_key]
+        self.assertEqual(registered.get('creator'), self.team_name)
 
     def test_1v1_args_error(self):
         """Check for an error message when input is incorrect."""
@@ -62,7 +65,9 @@ class RegisterSinglePlayerTeam(TournabotTestCase):
 class RegisterMultiPlayerTeam(TournabotTestCase):
     def setUp(self):
         TournabotTestCase.setUp(self)
-        tournabot.tournament_is_1v1 = False
+        tournabot.state['tournament'] = {
+            'team_size_limit': 4
+        }
         self.team_name = 'Team Name'
         self.team_key = self.team_name
         self.team_members = ['Member1', 'MeMbAr2', 'mMmMMM MMM']
