@@ -369,11 +369,11 @@ def reload_state(bot, user, chan, args):
 def rules(bot, user, chan, args):
     rules = state.get('rules')
     if rules:
-        bot.say(chan, 'Tournament rules:')
+        bot.msg(user, 'Tournament rules:')
         for rule in rules:
-            bot.say(chan, rule)
+            bot.msg(user, rule)
     else:
-        bot.say(chan, 'There are no rules!')
+        bot.msg(user, 'There are no rules!')
 
 
 def unconfirmed(bot, user, chan, args):
@@ -420,10 +420,15 @@ class Bot(irc.IRCClient):
     def joined(self, channel):
         print('Joined %s.' % channel)
 
-    def say(self, channel, msg):
+    def say(self, channel, msg, length=None):
         if type(msg) is unicode:
             msg = msg.encode('utf-8')
-        irc.IRCClient.say(self, channel, msg)
+        irc.IRCClient.say(self, channel, msg, length)
+
+    def msg(self, user, msg, length=None):
+        if type(msg) is unicode:
+            msg = msg.encode('utf-8')
+        irc.IRCClient.msg(self, user, msg, length)
 
     def privmsg(self, user, channel, msg):
         if not msg.startswith(cmd_prefix):
@@ -437,7 +442,8 @@ class Bot(irc.IRCClient):
                 self.say(channel, 'Eh?')
             return
 
-        cmd(self, user, channel, parts[1:])
+        user_short = user.split('!')[0]
+        cmd(self, user_short, channel, parts[1:])
         save()
 
 
