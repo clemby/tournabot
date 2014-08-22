@@ -38,15 +38,18 @@ def save():
 
 
 def load():
+    global cmds, all_cmds, cmd_prefix, state
     with open(state_file, 'r') as f:
-        global state
         state = json.load(f)
 
     excluded_cmds = state.get('excluded_commands') or []
-    global cmds, all_cmds
     cmds.update(all_cmds)
     for cmd in excluded_cmds:
         cmds.pop(cmd)
+
+    prefix = state['bot'].get('cmd_prefix')
+    if prefix:
+        cmd_prefix = prefix
 
 
 def timedelta_fmt(td):
