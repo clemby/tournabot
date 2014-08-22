@@ -101,6 +101,7 @@ def register(bot, user, chan, args):
                 'Expected <teamname> <member> [member [... member]]'
                 ' (multiplayer tournament)'
             )
+            return
         team_name = args[0]
         members = args[1:]
 
@@ -293,8 +294,8 @@ def rules(bot, user, chan, args):
     rules = state.get('rules')
     if rules:
         bot.say(chan, 'Tournament rules:')
-        for i, rule in enumerate(rules):
-            bot.say(chan, '{}. {}'.format(i + 1, rule))
+        for rule in rules:
+            bot.say(chan, rule)
     else:
         bot.say(chan, 'There are no rules!')
 
