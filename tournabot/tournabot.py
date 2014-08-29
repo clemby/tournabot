@@ -64,14 +64,8 @@ def timedelta_fmt(td):
     hours, remainder = divmod(td.seconds, 3600)
     minutes, seconds = divmod(remainder, 60)
     if days > 0:
-        return '{} days, {} hours, {} minutes'.format(
-            days, hours, minutes, seconds)
-    if hours > 0:
-        return '{} hours, {} minutes, {} seconds'.format(hours, minutes,
-                                                         seconds)
-    if minutes > 0:
-        return '{} minutes, {} seconds'.format(minutes, seconds)
-    return '{} seconds'.format(seconds)
+        return '{} days'.format(days)
+    return '{0:02}:{0:02}:{0:02}'.format(hours, minutes, seconds)
 
 
 def time_difference(utc_now, time_str):
@@ -302,6 +296,22 @@ def add_match(name, time=None, teams=[], next_id=None, winner=None):
     }
 
 
+def stringify_remaining_match(match, utc_now, min_teams=None):
+    """Produce a human-readable string representing remaining a match."""
+    teams = match.get('teams') or []
+    if min_teams and len(teams) < min_teams:
+        teams.append('TBA')
+    teams_str = ', '.join(teams)
+    match_time = match.get('time')
+    if match_time:
+        timeleft = time_difference(utc_now, match_time)
+        time_str = str(timeleft) if timeleft else 'Pending'
+    else:
+        time_str = 'Pending'
+    return '{name} [{time}]: {teams}'.format(name=match['id'], time=time_str,
+                                             teams=teams_str)
+
+
 def remaining(bot, user, chan, args):
     """Show remaining matches."""
     matches = [
@@ -314,26 +324,16 @@ def remaining(bot, user, chan, args):
 
     matches.sort(match_order)
 
-    current_round = state['tournament'].get('current_round') or \
-        "Remaining matches"
-    bot.say(chan, current_round)
+    current_round = state['tournament'].get('current_round') or "Remaining"
 
     utc_now = datetime.utcnow().replace(tzinfo=pytz.utc)
-    for match in matches:
-        teams = match.get('teams') or []
-        minimum_teams = state['tournament'].get('match_size_minimum')
-        if minimum_teams:
-            teams.extend(['TBA'] * (minimum_teams - len(teams)))
-        teams_str = ' vs. '.join(teams)
+    min_teams = state['tournament'].get('match_size_minimum')
+    match_strings = [
+        stringify_remaining_match(match, utc_now, min_teams)
+        for match in matches
+    ]
 
-        match_time = match.get('time')
-        if match_time:
-            timeleft = time_difference(utc_now, match_time)
-            time_str = str(timeleft) if timeleft else 'Pending'
-        else:
-            time_str = 'Pending'
-        bot.say(chan, '{name} [{time}]: {teams}'.format(
-            name=match['id'], time=time_str, teams=teams_str))
+    bot.say(chan, '{}: {}'.format(current_round, ' | '.join(match_strings)))
 
 
 def teams(bot, user, chan, args):
