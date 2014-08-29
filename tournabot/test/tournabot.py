@@ -16,6 +16,11 @@ class TournabotTestCase(unittest.TestCase):
             'teams': {},
             'matches': {},
             'unconfirmed_results': {},
+            'bot': {
+                'nick': 'testnick',
+                'channel': '#testchannel',
+                'cmd_prefix': '.',
+            }
         }
 
 
