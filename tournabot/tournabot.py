@@ -390,9 +390,19 @@ def unconfirmed(bot, user, chan, args):
 
 
 def show_help(bot, user, chan, args):
-    bot.say(chan, 'Supported commands:')
-    bot.say(chan, '  ' + ' '.join(
-        '%s%s' % (cmd_prefix, k) for k in cmds.keys()))
+    if not args:
+        text = 'Supported commands: ' + \
+            ', '.join('%s%s' % (cmd_prefix, k) for k in cmds.keys())
+        bot.say(chan, text)
+        return
+    if len(args) != 1:
+        bot.say(chan, 'Expected 1 argument')
+        return
+
+    func = cmds.get(args[0])
+    if func is None:
+        bot.say(chan, 'Unrecognised command: {}'.format(args[0]))
+        return
 
 
 all_cmds = {
