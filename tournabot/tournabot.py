@@ -65,7 +65,7 @@ def timedelta_fmt(td):
     minutes, seconds = divmod(remainder, 60)
     if days > 0:
         return '{} days'.format(days)
-    return '{0:02}:{0:02}:{0:02}'.format(hours, minutes, seconds)
+    return '{:02}:{:02}:{:02}'.format(hours, minutes, seconds)
 
 
 def time_difference(utc_now, time_str):
