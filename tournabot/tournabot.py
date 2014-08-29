@@ -363,7 +363,10 @@ def players(bot, user, chan, args):
 
 
 def reload_state(bot, user, chan, args):
-    load()
+    try:
+        load()
+    except:
+        bot.say(chan, "There's a syntax error in my records")
 
 
 def rules(bot, user, chan, args):
