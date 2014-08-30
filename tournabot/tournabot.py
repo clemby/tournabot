@@ -50,6 +50,8 @@ def load():
     prefix = state['bot'].get('cmd_prefix')
     if prefix:
         cmd_prefix = prefix
+    if type(cmd_prefix) is unicode:
+        cmd_prefix = cmd_prefix.encode('utf-8')
 
 
 def timedelta_fmt(td):
@@ -333,7 +335,7 @@ def remaining(bot, user, chan, args):
         for match in matches
     ]
 
-    bot.say(chan, '{}: {}'.format(current_round, ' | '.join(match_strings)))
+    bot.say(chan, '{}: {}'.format(current_round, ' || '.join(match_strings)))
 
 
 def teams(bot, user, chan, args):
@@ -444,6 +446,8 @@ class Bot(irc.IRCClient):
         irc.IRCClient.msg(self, user, msg, length)
 
     def privmsg(self, user, channel, msg):
+        if type(msg) is unicode:
+            msg = msg.encode('utf-8')
         if not msg.startswith(cmd_prefix):
             return
 
