@@ -300,7 +300,7 @@ def add_match(name, time=None, teams=[], next_id=None, winner=None):
 
 def stringify_remaining_match(match, utc_now, min_teams=None):
     """Produce a human-readable string representing remaining a match."""
-    teams = match.get('teams') or []
+    teams = match.get('teams')[:] or []
     if min_teams and len(teams) < min_teams:
         teams.append('TBA')
     teams_str = ', '.join(teams)
